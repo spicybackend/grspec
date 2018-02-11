@@ -1,4 +1,5 @@
 # GRSpec
+[![Gem Version](https://badge.fury.io/rb/grspec.svg)](https://badge.fury.io/rb/grspec)
 [![Build Status](https://travis-ci.org/yumoose/grspec.svg?branch=master)](https://travis-ci.org/yumoose/grspec)
 
 A simple spec runner for differed files
