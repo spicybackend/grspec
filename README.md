@@ -1,10 +1,10 @@
 # GRSpec
-A simple spec runner for differed files
-
 [![Build Status](https://travis-ci.org/yumoose/grspec.svg?branch=master)](https://travis-ci.org/yumoose/grspec)
 
+A simple spec runner for differed files
+
 ## Description
-grspec is a gem that can quickly and easily run specs for files that git has detected changes for, allowing for quick and easy regression checking without full-on test runs before committing and overloading build nodes.
+GRSpec is a tiny gem that can quickly and easily run specs for files that git has detected changes for, allowing for quick and easy regression checking without full-on test runs before committing and overloading build nodes.
 
 ## Example Usage
 ### Simple Usage
