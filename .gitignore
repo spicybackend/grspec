@@ -1,2 +1,4 @@
 .rspec
 .vscode
+.ruby-version
+.byebug_history

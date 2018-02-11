@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'find_changed_files'
+require 'find_matching_specs'
+require 'spec_runner'
+
+# handle args
+git_diff_args = ARGV.join(' ')
+
+# get changed files
+changed_files = FindChangedFiles.new(ARGV).call
+
+# match specs
+matching_specs = FindMatchingSpecs.new(changed_files).call
+
+# debug info
+puts
+puts "Changed files:"
+puts changed_files
+puts
+puts "Matching specs:"
+puts matching_specs
+puts
+
+# run specs
+SpecRunner.run(matching_specs)
