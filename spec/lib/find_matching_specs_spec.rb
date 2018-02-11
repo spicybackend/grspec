@@ -60,6 +60,14 @@ RSpec.describe FindMatchingSpecs do
         end
       end
 
+      context 'that is a spec itself' do
+        let(:files) { [ 'spec/file_spec.rb' ] }
+
+        it 'matches the spec with itself' do
+          expect(matching_specs).to include temp_file('spec/file_spec.rb')
+        end
+      end
+
       context 'that has no matching spec' do
         let(:files) { [ 'file.rb' ] }
 
