@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'fileutils'
+
+require './spec/support/run_inside_temp_dir_support'
 require './lib/find_matching_specs'
 
 RSpec.describe FindMatchingSpecs do
-  TEMP_PATH = './tmp'
-
-  let(:directory) { TEMP_PATH }
+  include RunInsideTempDirSupport
 
   let(:files) { Array.new }
   let(:specs) { Array.new }
@@ -14,17 +14,6 @@ RSpec.describe FindMatchingSpecs do
 
   def create_temp_file(filename)
     File.new(filename, 'w')
-  end
-
-  around do |example|
-    Dir.mkdir(TEMP_PATH) unless Dir.exists?(TEMP_PATH)
-
-    Dir.chdir(TEMP_PATH) do
-      example.run
-    end
-
-    FileUtils.rm_rf Dir.glob("#{TEMP_PATH}/**/*")
-    FileUtils.rm_rf TEMP_PATH
   end
 
   before do

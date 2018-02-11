@@ -3,7 +3,7 @@ class FindMatchingSpecs
 
   RUBY_FILE_EXTENSION = '.rb'
 
-  def initialize(files, directory: nil)
+  def initialize(files)
     @files = files
     @directory = directory
   end
@@ -17,12 +17,8 @@ class FindMatchingSpecs
 
   private
 
-  def directory
-    @directory ||= Dir.pwd
-  end
-
   def spec_file_listing
-    @spec_file_listing ||= Dir.glob("#{directory}/spec/**/*")
+    @spec_file_listing ||= Dir.glob("./spec/**/*")
   end
 
   def ruby_file?(filename)
