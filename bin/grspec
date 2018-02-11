@@ -10,6 +10,11 @@ git_diff_args = ARGV.join(' ')
 # get changed files
 changed_files = FindChangedFiles.new(ARGV).call
 
+if !changed_files.any?
+  puts "No changed files found"
+  exit
+end
+
 # match specs
 matching_specs = FindMatchingSpecs.new(changed_files).call
 
