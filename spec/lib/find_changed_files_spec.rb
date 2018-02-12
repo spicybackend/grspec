@@ -41,8 +41,8 @@ RSpec.describe FindChangedFiles do
         context 'and the file is staged' do
           before { `git add #{temp_file}` }
 
-          it 'skips the staged file' do
-            expect(changed_files).to_not include temp_file
+          it 'finds the staged file' do
+            expect(changed_files).to include temp_file
           end
 
           context 'and then the file is modified' do
@@ -50,6 +50,22 @@ RSpec.describe FindChangedFiles do
 
             it 'finds the modified file' do
               expect(changed_files).to include temp_file
+            end
+          end
+
+          context 'and then the file is committed' do
+            before { `git commit -m 'file updated'` }
+
+            it 'skips the committed file' do
+              expect(changed_files).to_not include temp_file
+            end
+
+            context 'and then the file is modified' do
+              before { `echo 'contents' >> #{temp_file}` }
+
+              it 'finds the modified file' do
+                expect(changed_files).to include temp_file
+              end
             end
           end
         end

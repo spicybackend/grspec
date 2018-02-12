@@ -10,7 +10,9 @@ class FindChangedFiles
 
   def call
     changed_files = differed_files
+
     changed_files += untracked_files if simple_diff?
+    changed_files += staged_files if simple_diff?
 
     changed_files.split("\n")
   end
@@ -31,5 +33,9 @@ class FindChangedFiles
 
   def untracked_files
     `git ls-files . --exclude-standard --others`
+  end
+
+  def staged_files
+    `#{GIT_DIFF_COMMAND} --staged #{GIT_DIFF_OPTIONS}`
   end
 end
