@@ -1,4 +1,6 @@
 class FindChangedFiles
+  class GitDiffError < StandardError; end
+
   attr_reader :args
 
   GIT_DIFF_COMMAND = 'git diff'.freeze
@@ -11,10 +13,12 @@ class FindChangedFiles
   def call
     changed_files = differed_files
 
-    changed_files += untracked_files if simple_diff?
-    changed_files += staged_files if simple_diff?
+    if simple_diff?
+      changed_files += untracked_files
+      changed_files += staged_files
+    end
 
-    changed_files.split("\n")
+    changed_files
   end
 
   private
@@ -28,14 +32,21 @@ class FindChangedFiles
   end
 
   def differed_files
-    `#{GIT_DIFF_COMMAND} #{stringified_args} #{GIT_DIFF_OPTIONS}`
+    @differed_files ||= begin
+      diff_output = `#{GIT_DIFF_COMMAND} #{stringified_args} #{GIT_DIFF_OPTIONS}`
+      exit_status = $?.exitstatus.to_i
+
+      raise GitDiffError.new("Bad git diff arguments; #{stringified_args}") unless exit_status.zero?
+
+      diff_output.split("\n")
+    end
   end
 
   def untracked_files
-    `git ls-files . --exclude-standard --others`
+    `git ls-files . --exclude-standard --others`.split("\n")
   end
 
   def staged_files
-    `#{GIT_DIFF_COMMAND} --staged #{GIT_DIFF_OPTIONS}`
+    `#{GIT_DIFF_COMMAND} --staged #{GIT_DIFF_OPTIONS}`.split("\n")
   end
 end

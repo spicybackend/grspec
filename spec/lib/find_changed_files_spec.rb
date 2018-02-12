@@ -72,9 +72,62 @@ RSpec.describe FindChangedFiles do
       end
     end
 
-    xcontext 'finding files over a diff range' do
-      let(:args) { [ 'HEAD~1', 'HEAD' ] }
+    context 'finding files with diff arguments specified' do
+      let(:initial_file) { 'initial_file' }
 
+      before do
+        `touch #{initial_file}`
+        `git add ./#{initial_file}`
+        `git commit -m 'added #{initial_file}'`
+      end
+
+      context 'as a range' do
+        let(:args) { [ 'HEAD~5', 'HEAD' ] }
+
+        context 'a bad git diff range' do
+          it 'raises a GitDiffError' do
+            expect { changed_files }.to raise_exception(FindChangedFiles::GitDiffError, /git diff arguments; #{args.join(' ')}/)
+          end
+        end
+
+        context 'a diff range that exists' do
+          let(:file) { 'file' }
+          let(:another_file) { 'another_file' }
+          let(:args) { [ 'HEAD', 'HEAD^' ] }
+
+          before do
+            `touch #{file}`
+            `git add ./#{file}`
+            `git commit -m 'added #{file}'`
+
+            `touch #{another_file}`
+            `git add ./#{another_file}`
+            `git commit -m 'added #{another_file}'`
+          end
+
+          context 'between HEAD~1 and HEAD' do
+            it 'finds files modified in the most recent commit' do
+              expect(changed_files).to include another_file
+            end
+          end
+
+          context 'between HEAD~2 and HEAD~1' do
+            let(:args) { [ 'HEAD~2', 'HEAD~1' ] }
+
+            it 'finds files modified in the commit before last' do
+              expect(changed_files).to include file
+            end
+          end
+
+          context 'between HEAD~2 and HEAD' do
+            let(:args) { [ 'HEAD~2', 'HEAD' ] }
+
+            it 'finds files modified in the last two commits' do
+              expect(changed_files).to include(file, another_file)
+            end
+          end
+        end
+      end
     end
   end
 end
