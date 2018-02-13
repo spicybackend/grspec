@@ -1,7 +1,8 @@
 class FindMatchingSpecs
   attr_reader :directory, :files
 
-  RUBY_FILE_EXTENSION = '.rb'
+  RUBY_FILE_EXTENSION = '.rb'.freeze
+  SPEC_PREFIX_AND_EXTENSION = '_spec.rb'.freeze
 
   def initialize(files)
     @files = files
@@ -18,7 +19,7 @@ class FindMatchingSpecs
   private
 
   def spec_file_listing
-    @spec_file_listing ||= Dir.glob("./spec/**/*")
+    @spec_file_listing ||= Dir.glob("**/spec/**/*")
   end
 
   def ruby_file?(filename)
@@ -26,10 +27,15 @@ class FindMatchingSpecs
   end
 
   def specs_for(filename)
-    file = filename.split(RUBY_FILE_EXTENSION).first
+    return [filename] if filename.end_with?('_spec.rb')
+
+    expected_name = filename.sub!(RUBY_FILE_EXTENSION, SPEC_PREFIX_AND_EXTENSION)
 
     spec_file_listing.select do |spec_file|
-      spec_file.match(/#{file}/)
+      file_for_spec = spec_file.gsub(/\/?spec\//, '/')
+      file_for_spec.sub!(/^\//, '')
+
+      file_for_spec == expected_name
     end
   end
 end
