@@ -33,13 +33,12 @@ class FindMatchingSpecs
   def specs_for(filename)
     return [filename] if spec_file?(filename)
 
-    expected_name = filename.sub!(RUBY_FILE_EXTENSION, SPEC_PREFIX_AND_EXTENSION)
-
     spec_file_listing.select do |spec_file|
       file_for_spec = spec_file.gsub(/\/?spec\//, '/')
+      file_for_spec.sub!(SPEC_PREFIX_AND_EXTENSION, RUBY_FILE_EXTENSION)
       file_for_spec.sub!(/^\//, '')
 
-      file_for_spec == expected_name
+      file_for_spec == filename
     end
   end
 end
