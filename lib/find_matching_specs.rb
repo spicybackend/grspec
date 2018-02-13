@@ -19,15 +19,19 @@ class FindMatchingSpecs
   private
 
   def spec_file_listing
-    @spec_file_listing ||= Dir.glob("**/spec/**/*")
+    @spec_file_listing ||= Dir.glob("**/spec/**/*#{SPEC_PREFIX_AND_EXTENSION}")
   end
 
   def ruby_file?(filename)
     filename.end_with?(RUBY_FILE_EXTENSION)
   end
 
+  def spec_file?(filename)
+    filename.end_with?(SPEC_PREFIX_AND_EXTENSION)
+  end
+
   def specs_for(filename)
-    return [filename] if filename.end_with?('_spec.rb')
+    return [filename] if spec_file?(filename)
 
     expected_name = filename.sub!(RUBY_FILE_EXTENSION, SPEC_PREFIX_AND_EXTENSION)
 
