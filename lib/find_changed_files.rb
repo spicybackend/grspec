@@ -5,6 +5,7 @@ class FindChangedFiles
 
   GIT_DIFF_COMMAND = 'git diff'.freeze
   GIT_DIFF_OPTIONS = '--name-only'.freeze
+  REDIRECT_STDERR_TO_STDOUT = '2>&1'.freeze
 
   def initialize(args)
     @args = args
@@ -33,10 +34,9 @@ class FindChangedFiles
 
   def differed_files
     @differed_files ||= begin
-      diff_output = `#{GIT_DIFF_COMMAND} #{stringified_args} #{GIT_DIFF_OPTIONS}`
-      exit_status = $?.exitstatus.to_i
+      diff_output = `#{GIT_DIFF_COMMAND} #{stringified_args} #{GIT_DIFF_OPTIONS} #{REDIRECT_STDERR_TO_STDOUT}`
 
-      raise GitDiffError.new("Bad git diff arguments; #{stringified_args}") unless exit_status.zero?
+      raise GitDiffError.new("Bad git diff arguments; #{stringified_args}") unless $?.success?
 
       diff_output.split("\n")
     end
