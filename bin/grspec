@@ -10,8 +10,12 @@ def display_listing(header, listing)
   puts listing
 end
 
-git_diff_args = ARGV.join(' ')
-changed_files = FindChangedFiles.new(ARGV).call
+git_diff_args = ARGV.first(2)
+
+changed_files = FindChangedFiles.new(
+  base_branch: git_diff_args.first,
+  diff_branch: git_diff_args.last
+).call
 
 if changed_files.any?
   display_listing('Changed files:', changed_files)

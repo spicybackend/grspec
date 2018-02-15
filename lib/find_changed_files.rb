@@ -1,52 +1,41 @@
 class FindChangedFiles
-  class GitDiffError < StandardError; end
+  require 'active_support/core_ext/object/blank'
 
-  attr_reader :args
+  require_relative 'find_changed_files/simple_diff'
+  require_relative 'find_changed_files/between_refs'
+
+  attr_reader :base_ref, :diff_ref
 
   GIT_DIFF_COMMAND = 'git diff'.freeze
   GIT_DIFF_OPTIONS = '--name-only'.freeze
+
   REDIRECT_STDERR_TO_STDOUT = '2>&1'.freeze
 
-  def initialize(args)
-    @args = args
+  def initialize(base_ref: nil, diff_ref: nil)
+    @base_ref = base_ref
+    @diff_ref = diff_ref
   end
 
   def call
-    changed_files = differed_files
-
     if simple_diff?
-      changed_files += untracked_files
-      changed_files += staged_files
+      SimpleDiff.new.call
+    elsif between_refs?
+      BetweenRefs.new(
+        base_ref: base_ref,
+        diff_ref: diff_ref
+      ).call
+    else
+      raise 'malformed args'
     end
-
-    changed_files
   end
 
   private
 
   def simple_diff?
-    args.none?
+    base_ref.blank? && diff_ref.blank?
   end
 
-  def stringified_args
-    args.join(' ')
-  end
-
-  def differed_files
-    @differed_files ||= begin
-      diff_output = `#{GIT_DIFF_COMMAND} #{stringified_args} #{GIT_DIFF_OPTIONS} #{REDIRECT_STDERR_TO_STDOUT}`
-
-      raise GitDiffError.new("Bad git diff arguments; #{stringified_args}") unless $?.success?
-
-      diff_output.split("\n")
-    end
-  end
-
-  def untracked_files
-    `git ls-files . --exclude-standard --others`.split("\n")
-  end
-
-  def staged_files
-    `#{GIT_DIFF_COMMAND} --staged #{GIT_DIFF_OPTIONS}`.split("\n")
+  def between_refs?
+    base_ref.present? && diff_ref.present?
   end
 end
