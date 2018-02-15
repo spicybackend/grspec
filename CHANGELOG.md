@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/yumoose/grspec/tree/HEAD)
-
-[Full Changelog](https://github.com/yumoose/grspec/compare/v0.0.1...HEAD)
+## [v0.1.0](https://github.com/yumoose/grspec/tree/v0.1.0) (2018-02-15)
+[Full Changelog](https://github.com/yumoose/grspec/compare/v0.0.2...v0.1.0)
 
 **Closed issues:**
 
