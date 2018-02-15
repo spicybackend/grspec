@@ -3,8 +3,6 @@ require './lib/find_changed_files'
 require './spec/support/run_inside_temp_dir_support'
 
 RSpec.describe FindChangedFiles do
-  include RunInsideTempDirSupport
-
   let(:base_ref) { nil }
   let(:diff_ref) { nil }
 
