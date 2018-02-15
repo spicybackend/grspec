@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'active_support/core_ext/array/access'
 
 require 'find_changed_files'
 require 'find_matching_specs'
@@ -13,8 +14,8 @@ end
 git_diff_args = ARGV.first(2)
 
 changed_files = FindChangedFiles.new(
-  base_branch: git_diff_args.first,
-  diff_branch: git_diff_args.last
+  base_ref: git_diff_args.first,
+  diff_ref: git_diff_args.second
 ).call
 
 if changed_files.any?
