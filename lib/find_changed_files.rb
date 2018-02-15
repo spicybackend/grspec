@@ -2,6 +2,7 @@ class FindChangedFiles
   require 'active_support/core_ext/object/blank'
 
   require_relative 'find_changed_files/simple_diff'
+  require_relative 'find_changed_files/since_ref'
   require_relative 'find_changed_files/between_refs'
 
   attr_reader :base_ref, :diff_ref
@@ -19,6 +20,10 @@ class FindChangedFiles
   def call
     if simple_diff?
       SimpleDiff.new.call
+    elsif since_ref?
+      SinceRef.new(
+        base_ref: base_ref
+      ).call
     elsif between_refs?
       BetweenRefs.new(
         base_ref: base_ref,
@@ -33,6 +38,10 @@ class FindChangedFiles
 
   def simple_diff?
     base_ref.blank? && diff_ref.blank?
+  end
+
+  def since_ref?
+    base_ref.present? && diff_ref.blank?
   end
 
   def between_refs?

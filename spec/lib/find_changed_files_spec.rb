@@ -28,6 +28,18 @@ RSpec.describe FindChangedFiles do
       end
     end
 
+    context 'with just a base reference' do
+      let(:base_ref) { 'some' }
+
+      let(:mock_changed_files_strategy) { instance_double(FindChangedFiles::SinceRef, call: mock_file_changes) }
+
+      it 'runs a check for files in the diff' do
+        expect(FindChangedFiles::SinceRef).to receive(:new).and_return(mock_changed_files_strategy)
+
+        expect(changed_files).to eq mock_file_changes
+      end
+    end
+
     context 'with base and diff references' do
       let(:base_ref) { 'some' }
       let(:diff_ref) { 'refs' }
