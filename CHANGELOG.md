@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.2.0](https://github.com/yumoose/grspec/tree/v0.2.0) (2018-02-15)
+[Full Changelog](https://github.com/yumoose/grspec/compare/v0.1.1...v0.2.0)
+
+**Implemented enhancements:**
+
+- Support for diffs since a single ref [\#5](https://github.com/yumoose/grspec/issues/5)
+- Handle diffs between diverged branches [\#4](https://github.com/yumoose/grspec/issues/4)
+
 ## [v0.1.1](https://github.com/yumoose/grspec/tree/v0.1.1) (2018-02-15)
 [Full Changelog](https://github.com/yumoose/grspec/compare/v0.1.0...v0.1.1)
 
