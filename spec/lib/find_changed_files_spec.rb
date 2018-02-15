@@ -1,6 +1,6 @@
 require 'spec_helper'
 require './lib/find_changed_files'
-require './spec/support/run_inside_temp_dir_support'
+require './spec/support/temp_git_directory_support'
 
 RSpec.describe FindChangedFiles do
   let(:base_ref) { nil }

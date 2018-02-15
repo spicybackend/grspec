@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'fileutils'
 
-require './spec/support/run_inside_temp_dir_support'
+require './spec/support/temp_git_directory_support'
 require './lib/find_matching_specs'
 
 RSpec.describe FindMatchingSpecs do
-  include RunInsideTempDirSupport
+  include TempGitDirectorySupport
 
   let(:test_dirs) { [ 'spec' ] }
 

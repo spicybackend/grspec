@@ -1,4 +1,4 @@
-module RunInsideTempDirSupport
+module TempGitDirectorySupport
   require 'fileutils'
 
   TEMP_PATH = './tmp'
