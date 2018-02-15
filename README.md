@@ -1,6 +1,8 @@
 # GRSpec
-[![Gem Version](https://badge.fury.io/rb/grspec.svg)](https://badge.fury.io/rb/grspec)
+[![GitHub release](https://img.shields.io/github/release/yumoose/grspec.svg)](https://github.com/yumoose/grspec/releases/)
 [![Build Status](https://travis-ci.org/yumoose/grspec.svg?branch=master)](https://travis-ci.org/yumoose/grspec)
+[![Gem](https://img.shields.io/gem/v/grspec.svg)](https://rubygems.org/gems/grspec)
+[![Gem](https://img.shields.io/gem/dt/grspec.svg)](https://rubygems.org/gems/grspec)
 
 A simple spec runner for differed files
 
