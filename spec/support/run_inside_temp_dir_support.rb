@@ -18,4 +18,21 @@ module RunInsideTempDirSupport
       end
     end
   end
+
+  def setup_simple_git_repo(commits)
+    `git init`
+
+    `touch init_file`
+    `git add ./init_file`
+    `git commit -m 'added init_file'`
+
+    commits.each do |files_to_commit|
+      files_to_commit.each do |file|
+        `touch #{file}`
+        `git add ./#{file}`
+      end
+
+      `git commit -m 'added #{file}'`
+    end
+  end
 end

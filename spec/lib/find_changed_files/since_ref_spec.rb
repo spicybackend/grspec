@@ -14,24 +14,14 @@ RSpec.describe FindChangedFiles::BetweenRefs do
   describe '#call' do
     let(:base_ref) { 'HEAD~1' }
 
-    let(:initial_file) { 'initial_file' }
     let(:file) { 'file' }
     let(:another_file) { 'another_file' }
 
     before do
-      `git init`
-
-      `touch #{initial_file}`
-      `git add ./#{initial_file}`
-      `git commit -m 'added #{initial_file}'`
-
-      `touch #{file}`
-      `git add ./#{file}`
-      `git commit -m 'added #{file}'`
-
-      `touch #{another_file}`
-      `git add ./#{another_file}`
-      `git commit -m 'added #{another_file}'`
+      setup_simple_git_repo([
+        [file],
+        [another_file]
+      ])
     end
 
     context 'since the current commit' do
