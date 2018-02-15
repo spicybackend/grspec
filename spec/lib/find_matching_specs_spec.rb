@@ -41,14 +41,14 @@ RSpec.describe FindMatchingSpecs do
         let(:specs) { [ 'spec/file_spec.rb' ] }
 
         it 'matches the spec file' do
-          expect(matching_specs).to include specs.first
+          expect(matching_specs).to include [files.first, specs.first]
         end
 
         context 'that is not a ruby file' do
           let(:files) { [ 'file.js' ] }
 
           it 'does not match the spec' do
-            expect(matching_specs).to_not include specs.first
+            expect(matching_specs).to_not include [files.first, specs.first]
           end
         end
       end
@@ -57,7 +57,7 @@ RSpec.describe FindMatchingSpecs do
         let(:files) { [ 'spec/file_spec.rb' ] }
 
         it 'matches the spec with itself' do
-          expect(matching_specs).to include files.first
+          expect(matching_specs).to include [files.first, files.first]
         end
       end
 
@@ -76,7 +76,7 @@ RSpec.describe FindMatchingSpecs do
         let(:specs) { [ 'spec/app/file_spec.rb' ]}
 
         it 'matches the spec file' do
-          expect(matching_specs).to include specs.first
+          expect(matching_specs).to include [files.first, specs.first]
         end
       end
 
@@ -87,7 +87,7 @@ RSpec.describe FindMatchingSpecs do
         let(:specs) { [ 'sub/spec/file_spec.rb' ] }
 
         it 'matches the spec file' do
-          expect(matching_specs).to include specs.first
+          expect(matching_specs).to include [files.first, specs.first]
         end
 
         context 'and the spec sub-directory is different' do
@@ -118,7 +118,7 @@ RSpec.describe FindMatchingSpecs do
         let(:specs) { [ 'spec/some_spec.rb' ] }
 
         it 'matches the spec for the tested file' do
-          expect(matching_specs).to include 'spec/some_spec.rb'
+          expect(matching_specs).to include [files.first, specs.first]
         end
       end
 
@@ -127,8 +127,8 @@ RSpec.describe FindMatchingSpecs do
         let(:specs) { [ 'spec/some_spec.rb', 'spec/file_spec.rb' ] }
 
         it 'matches specs for both files' do
-          specs.each do |spec|
-            expect(matching_specs).to include spec
+          files.size.times do |index|
+            expect(matching_specs).to include [files[index], specs[index]]
           end
         end
 
@@ -136,11 +136,11 @@ RSpec.describe FindMatchingSpecs do
           let(:files) { [ 'some.txt', 'file.rb' ] }
 
           it 'returns matching specs for ruby files' do
-            expect(matching_specs).to include 'spec/file_spec.rb'
+            expect(matching_specs).to include [files.last, specs.last]
           end
 
           it 'does not match specs for non-ruby files' do
-            expect(matching_specs).to_not include 'spec/some_spec.rb'
+            expect(matching_specs.any? { |_, spec| spec == 'spec/some_spec.rb'}).to be_falsey
           end
         end
       end

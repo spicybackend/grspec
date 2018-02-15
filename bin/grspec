@@ -25,9 +25,9 @@ if changed_files.any?
   matching_specs = FindMatchingSpecs.new(changed_files).call
 
   if matching_specs.any?
-    display_listing('Matching specs:', matching_specs)
+    display_listing('Matching specs:', matching_specs.map {|matching_spec| matching_spec.join(' -> ') })
 
-    SpecRunner.run(matching_specs)
+    SpecRunner.run(matching_specs.map(&:second).uniq)
   else
     puts "No matching specs found"
   end
