@@ -3,7 +3,7 @@ class FindChangedFiles::BetweenRefs < FindChangedFiles
 
   GIT_MERGE_BASE_COMMAND = 'git merge-base'.freeze
 
-  def initialize(base_ref: nil, diff_ref: nil)
+  def initialize(base_ref:, diff_ref:)
     @base_ref = base_ref
     @diff_ref = diff_ref
   end
