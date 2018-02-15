@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.1.1](https://github.com/yumoose/grspec/tree/v0.1.1) (2018-02-15)
+[Full Changelog](https://github.com/yumoose/grspec/compare/v0.1.0...v0.1.1)
+
 ## [v0.1.0](https://github.com/yumoose/grspec/tree/v0.1.0) (2018-02-15)
 [Full Changelog](https://github.com/yumoose/grspec/compare/v0.0.2...v0.1.0)
 
