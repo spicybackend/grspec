@@ -3,6 +3,10 @@
 ## [v0.1.0](https://github.com/yumoose/grspec/tree/v0.1.0) (2018-02-15)
 [Full Changelog](https://github.com/yumoose/grspec/compare/v0.0.2...v0.1.0)
 
+**Implemented enhancements:**
+
+- Match specs outside of root `/spec` directory [\#2](https://github.com/yumoose/grspec/issues/2)
+
 **Closed issues:**
 
 - Staged files not included for matching [\#1](https://github.com/yumoose/grspec/issues/1)
