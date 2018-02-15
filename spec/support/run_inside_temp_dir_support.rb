@@ -1,4 +1,6 @@
 module RunInsideTempDirSupport
+  require 'fileutils'
+
   TEMP_PATH = './tmp'
 
   def self.included(base)
