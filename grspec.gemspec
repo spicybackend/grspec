@@ -10,6 +10,10 @@ Gem::Specification.new do |spec|
   spec.files       = ['bin/grspec', 'lib/find_changed_files.rb', 'lib/find_matching_specs.rb', 'lib/spec_runner.rb']
   spec.homepage    = 'https://rubygems.org/gems/grspec'
   spec.license     = 'MIT'
-  spec.metadata    = { "source_code_uri" => "https://github.com/yumoose/grspec" }
-  spec.required_ruby_version = '>= 2.2.2'
+  spec.required_ruby_version = '>= 2.2.2',
+  spec.metadata    = {
+    "source_code_uri" => "https://github.com/yumoose/grspec",
+    "changelog_uri"     => "https://github.com/yumoose/grspec/blob/master/CHANGELOG.md",
+    "bug_tracker_uri"   => "https://github.com/yumoose/grspec/issues",
+  }
 end
