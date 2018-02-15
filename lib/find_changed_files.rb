@@ -25,7 +25,7 @@ class FindChangedFiles
         diff_ref: diff_ref
       ).call
     else
-      raise 'malformed args'
+      raise ArgumentError.new('A base ref must be supplied with a diff ref')
     end
   end
 

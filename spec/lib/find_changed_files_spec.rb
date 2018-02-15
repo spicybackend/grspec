@@ -44,5 +44,13 @@ RSpec.describe FindChangedFiles do
         expect(changed_files).to eq mock_file_changes
       end
     end
+
+    context 'with just a diff reference' do
+      let(:diff_ref) { 'ref' }
+
+      it 'raises an argument error' do
+        expect { changed_files }.to raise_exception(ArgumentError, /base ref must be supplied/)
+      end
+    end
   end
 end
