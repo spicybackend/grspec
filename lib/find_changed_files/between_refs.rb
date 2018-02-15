@@ -1,4 +1,6 @@
 class FindChangedFiles::BetweenRefs < FindChangedFiles
+  require 'English'
+
   attr_reader :base_ref, :diff_ref
 
   GIT_MERGE_BASE_COMMAND = 'git merge-base'.freeze
@@ -17,7 +19,7 @@ class FindChangedFiles::BetweenRefs < FindChangedFiles
   def merge_base_ref
     merge_base = `#{GIT_MERGE_BASE_COMMAND} #{base_ref} #{diff_ref} #{REDIRECT_STDERR_TO_STDOUT}`
 
-    raise ArgumentError.new("Bad git diff arguments; #{base_ref} #{diff_ref}") unless $?.success?
+    raise ArgumentError.new("Bad git diff arguments; #{base_ref} #{diff_ref}") unless $CHILD_STATUS.success?
 
     merge_base.strip
   end
@@ -26,7 +28,7 @@ class FindChangedFiles::BetweenRefs < FindChangedFiles
     @differed_files ||= begin
       diff_output = `#{GIT_DIFF_COMMAND} #{from_ref} #{to_ref} #{GIT_DIFF_OPTIONS} #{REDIRECT_STDERR_TO_STDOUT}`
 
-      raise ArgumentError.new("Bad git diff arguments; #{base_ref} #{diff_ref}") unless $?.success?
+      raise ArgumentError.new("Bad git diff arguments; #{base_ref} #{diff_ref}") unless $CHILD_STATUS.success?
 
       diff_output.split("\n")
     end
