@@ -8,11 +8,11 @@ RSpec.describe FindChangedFiles do
   let(:args) { [] }
   let(:changed_files) { FindChangedFiles.new(args).call }
 
-  before do
-    `git init`  # blank canvas for testing
-  end
-
   describe '#call' do
+    before do
+      `git init`  # blank canvas for testing
+    end
+
     context 'finding files over a simple diff' do
       context 'with no diff between files' do
         it 'finds no changed files' do
