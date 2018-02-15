@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/yumoose/grspec/tree/HEAD)
+
+[Full Changelog](https://github.com/yumoose/grspec/compare/v0.2.0...HEAD)
+
+**Fixed bugs:**
+
+- SpecRunner tries to run removed files [\#6](https://github.com/yumoose/grspec/issues/6)
+
 ## [v0.2.0](https://github.com/yumoose/grspec/tree/v0.2.0) (2018-02-15)
 [Full Changelog](https://github.com/yumoose/grspec/compare/v0.1.1...v0.2.0)
 
