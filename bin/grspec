@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
+
 require 'active_support/core_ext/array/access'
 
-require 'find_changed_files'
-require 'find_matching_specs'
-require 'spec_runner'
+require_relative '../lib/find_changed_files'
+require_relative '../lib/find_matching_specs'
+require_relative '../lib/spec_runner'
 
 def display_listing(header, listing)
   puts
