@@ -2,4 +2,7 @@
 .vscode
 .ruby-version
 .byebug_history
+
 grspec-*.gem
+
+tmp/
