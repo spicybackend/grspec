@@ -13,7 +13,7 @@ class FindMatchingSpecs
     ruby_files = files.select { |filename| ruby_file?(filename) }
     spec_files = ruby_files.map { |filename| specs_for(filename) }
 
-    spec_files.compact.uniq
+    spec_files.uniq
   end
 
   private
@@ -41,6 +41,6 @@ class FindMatchingSpecs
       file_for_spec == filename
     end
 
-    [filename, spec_match] unless spec_match.nil?
+    [filename, spec_match]
   end
 end

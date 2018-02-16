@@ -22,10 +22,21 @@ changed_files = FindChangedFiles.new(
 if changed_files.any?
   display_listing('Changed files:', changed_files)
 
-  matching_specs = FindMatchingSpecs.new(changed_files).call
+  file_spec_pairs = FindMatchingSpecs.new(changed_files).call
+  mismatching_files, matching_specs = file_spec_pairs.partition { |_, spec| spec.nil? }
+
+  if mismatching_files.any?
+    display_listing(
+      'Files without specs:',
+      mismatching_files.map(&:first)
+    )
+  end
 
   if matching_specs.any?
-    display_listing('Matching specs:', matching_specs.map {|matching_spec| matching_spec.join(' -> ') })
+    display_listing(
+      'Matching specs:',
+      matching_specs.map { |matching_spec| matching_spec.join(' -> ') }
+    )
 
     SpecRunner.run(matching_specs.map(&:second).uniq)
   else
