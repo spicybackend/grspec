@@ -2,6 +2,7 @@
 
 require 'active_support/core_ext/array/access'
 
+require_relative '../lib/arg_parser'
 require_relative '../lib/find_changed_files'
 require_relative '../lib/find_matching_specs'
 require_relative '../lib/spec_runner'
@@ -12,11 +13,13 @@ def display_listing(header, listing)
   puts listing
 end
 
-git_diff_args = ARGV.first(2)
+options = ArgParser.parse(ARGV)
+
+base_ref, diff_ref = ARGV.first(2)
 
 changed_files = FindChangedFiles.new(
-  base_ref: git_diff_args.first,
-  diff_ref: git_diff_args.second
+  base_ref: base_ref,
+  diff_ref: diff_ref
 ).call
 
 if changed_files.any?
