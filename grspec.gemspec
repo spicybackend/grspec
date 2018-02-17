@@ -2,7 +2,7 @@ require 'rake'
 
 Gem::Specification.new do |spec|
   spec.name        = 'grspec'
-  spec.version     = '0.2.0'
+  spec.version     = '0.2.1'
   spec.date        = '2018-02-11'
   spec.executables << 'grspec'
   spec.summary     = 'A simple spec runner for differed files'
