@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.3.0](https://github.com/yumoose/grspec/tree/v0.3.0) (2018-02-20)
+[Full Changelog](https://github.com/yumoose/grspec/compare/v0.2.1...v0.3.0)
+
+**Implemented enhancements:**
+
+- Option to perform a dry run without executing RSpec [\#7](https://github.com/yumoose/grspec/issues/7)
+- Listing of changed, matched, and unmatched files [\#3](https://github.com/yumoose/grspec/issues/3)
+
 ## [v0.2.1](https://github.com/yumoose/grspec/tree/v0.2.1) (2018-02-15)
 [Full Changelog](https://github.com/yumoose/grspec/compare/v0.2.0...v0.2.1)
 
