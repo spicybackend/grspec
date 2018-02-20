@@ -1,50 +1,12 @@
 #!/usr/bin/env ruby
-
-require 'active_support/core_ext/array/access'
-
 require_relative '../lib/arg_parser'
-require_relative '../lib/find_changed_files'
-require_relative '../lib/find_matching_specs'
-require_relative '../lib/spec_runner'
-
-def display_listing(header, listing)
-  puts
-  puts header
-  puts listing
-end
+require_relative '../lib/grspec'
 
 options = ArgParser.parse(ARGV)
-
 base_ref, diff_ref = ARGV.first(2)
 
-changed_files = FindChangedFiles.new(
+Grspec.new(
   base_ref: base_ref,
-  diff_ref: diff_ref
-).call
-
-if changed_files.any?
-  display_listing('Changed files:', changed_files)
-
-  file_spec_pairs = FindMatchingSpecs.new(changed_files).call
-  mismatching_files, matching_specs = file_spec_pairs.partition { |_, spec| spec.nil? }
-
-  if mismatching_files.any?
-    display_listing(
-      'Files without specs:',
-      mismatching_files.map(&:first)
-    )
-  end
-
-  if matching_specs.any?
-    display_listing(
-      'Matching specs:',
-      matching_specs.map { |matching_spec| matching_spec.join(' -> ') }
-    )
-
-    SpecRunner.run(matching_specs.map(&:second).uniq)
-  else
-    puts "No matching specs found"
-  end
-else
-  puts "No changed files found"
-end
+  diff_ref: diff_ref,
+  options: options
+).run
