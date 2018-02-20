@@ -14,7 +14,10 @@ class Grspec
   end
 
   def run
-    display("No changed files found") && return if changed_files.empty?
+    if changed_files.empty?
+      display("No changed files found")
+      return
+    end
 
     display_listing('Changed files:', changed_files)
 
