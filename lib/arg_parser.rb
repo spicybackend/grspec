@@ -27,6 +27,3 @@ class ArgParser
     args
   end
 end
-
-# options = Parser.parse %w[HEAD HEAD~1 -r /**\/(psuk|core|spec)\/**/*/]
-# p options
