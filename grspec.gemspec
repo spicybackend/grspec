@@ -2,8 +2,8 @@ require 'rake'
 
 Gem::Specification.new do |spec|
   spec.name        = 'grspec'
-  spec.version     = '0.2.1'
-  spec.date        = '2018-02-11'
+  spec.version     = '0.3.0'
+  spec.date        = '2018-02-20'
   spec.executables << 'grspec'
   spec.summary     = 'A simple spec runner for differed files'
   spec.description = 'GRSpec is a tiny gem that can quickly and easily run specs for files that git has detected changes for, allowing for quick and easy regression checking without full-on test runs before committing and overloading build nodes.'
