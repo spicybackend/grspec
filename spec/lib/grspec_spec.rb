@@ -2,11 +2,13 @@ require 'spec_helper'
 
 require 'ostruct'
 require './spec/support/output_suppression_support'
+require './spec/support/temp_git_directory_support'
 
 require './lib/grspec'
 
 RSpec.describe Grspec do
   include OutputSuppressionSupport
+  include TempGitDirectorySupport
 
   let(:base_ref) { 'master_branch' }
   let(:diff_ref) { 'new_feature_branch' }
@@ -17,16 +19,26 @@ RSpec.describe Grspec do
   describe '#run' do
     let(:mock_find_changed_files_service) { instance_double(FindChangedFiles, call: mock_changed_files) }
 
+    let(:mock_changed_files) { [] }
+    let(:mock_matching_specs) { [] }
+
     before do
+      `mkdir spec`
+
+      (mock_changed_files + mock_matching_specs.map(&:second)).flatten.compact.each do |file|
+        `touch #{file}`
+      end
+
       expect(FindChangedFiles).to receive(:new).with(
         base_ref: base_ref,
         diff_ref: diff_ref
       ).and_return(mock_find_changed_files_service)
+
+      # Don't actually run the specs during this spec run
+      allow(SpecRunner).to receive(:run)
     end
 
     context 'when no files have changed' do
-      let(:mock_changed_files) { [] }
-
       it 'outputs a "no changed files" message' do
         expect { grspec.run }.to output(/No changed files found/).to_stdout
       end
@@ -55,7 +67,6 @@ RSpec.describe Grspec do
       let(:mock_changed_files) { [changed_file, another_changed_file] }
 
       let(:mock_find_matching_specs_service) { instance_double(FindMatchingSpecs, call: mock_matching_specs) }
-      let(:mock_matching_specs) { [] }
 
       before do
         expect(FindMatchingSpecs).to receive(:new).with(
@@ -108,6 +119,56 @@ RSpec.describe Grspec do
             expect(SpecRunner).to_not receive(:new)
 
             grspec.run
+          end
+        end
+
+        context 'when a spec file has been changed' do
+          let(:changed_spec_file) { 'spec/changed_file_spec.rb' }
+
+          let(:mock_changed_files) { [changed_spec_file] }
+          let(:mock_matching_specs) do
+            [
+              [changed_spec_file, changed_spec_file]
+            ]
+          end
+
+          it 'outputs the spec match' do
+            expected_output = ["Matching specs:"]
+            expected_output << changed_spec_file
+
+            expect { grspec.run }.to output(/#{expected_output.join("\n")}/).to_stdout
+          end
+
+          it 'runs the spec' do
+            expect(SpecRunner).to receive(:run).with([changed_spec_file])
+
+            grspec.run
+          end
+
+          context 'when the spec has been removed' do
+            before do
+              `rm #{changed_spec_file}`
+            end
+
+            it 'outputs the spec match' do
+              expected_output = ["Matching specs:"]
+              expected_output << changed_spec_file
+
+              expect { grspec.run }.to output(/#{expected_output.join("\n")}/).to_stdout
+            end
+
+            it 'outputs the removed file' do
+              expected_output = ["Removed specs:"]
+              expected_output << changed_spec_file
+
+              expect { grspec.run }.to output(/#{expected_output.join("\n")}/).to_stdout
+            end
+
+            it 'does not run the spec runner' do
+              expect(SpecRunner).to_not receive(:run)
+
+              grspec.run
+            end
           end
         end
       end

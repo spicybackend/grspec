@@ -26,16 +26,25 @@ class Grspec
       mismatching_files.map(&:first)
     ) if mismatching_files.any?
 
-    if matching_specs.any?
+    if spec_matchings.any?
       display_listing(
         'Matching specs:',
-        matching_specs.map { |matching_spec| matching_spec.join(' -> ') }
+        spec_matchings.map { |matching_spec| matching_spec.join(' -> ') }
       )
 
-      if dry_run?
-        puts matching_specs.map(&:second).uniq
-      else
-        SpecRunner.run(matching_specs.map(&:second).uniq)
+      if non_existent_specs.any?
+        display_listing(
+          'Removed specs:',
+          non_existent_specs
+        )
+      end
+
+      if specs_to_run.any?
+        if dry_run?
+          puts specs_to_run
+        else
+          SpecRunner.run(specs_to_run)
+        end
       end
     else
       display("No matching specs found")
@@ -63,8 +72,20 @@ class Grspec
     @mismatching_files ||= file_spec_pairs.select { |_, spec| spec.nil? }
   end
 
+  def spec_matchings
+    @spec_matchings ||= file_spec_pairs - mismatching_files
+  end
+
   def matching_specs
-    @matching_specs ||= file_spec_pairs - mismatching_files
+    @matching_specs ||= spec_matchings.map(&:second).uniq
+  end
+
+  def non_existent_specs
+    @non_existent_specs ||= matching_specs.reject { |spec_file| File.file?(spec_file) }
+  end
+
+  def specs_to_run
+    @specs_to_run ||= matching_specs - non_existent_specs
   end
 
   def display_output?

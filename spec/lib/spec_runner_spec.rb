@@ -26,18 +26,6 @@ RSpec.describe SpecRunner do
         run
       end
 
-      context 'when the spec has been removed' do
-        before do
-          `rm #{spec_file}`
-        end
-
-        it 'skips running the spec' do
-          expect(runner).to_not receive(:system).with("rspec #{spec_file}")
-
-          run
-        end
-      end
-
       context 'multiple specs' do
         let(:another_spec_file) { 'another_file_spec.rb' }
         let(:spec_files) { [ spec_file, another_spec_file ] }
@@ -46,30 +34,6 @@ RSpec.describe SpecRunner do
           expect(runner).to receive(:system).with("rspec #{spec_file} #{another_spec_file}")
 
           run
-        end
-
-        context 'when one of the specs have been removed' do
-          before do
-            `rm #{spec_files.first}`
-          end
-
-          it 'still runs the remaining spec(s)' do
-            expect(runner).to receive(:system).with("rspec #{another_spec_file}")
-
-            run
-          end
-        end
-
-        context 'when all spec files have been removed' do
-          before do
-            spec_files.each do |spec_file|
-              `rm #{spec_file}`
-            end
-          end
-
-          it 'does not execute rspec' do
-            expect(runner).to_not receive(:system).with(anything)
-          end
         end
       end
     end
