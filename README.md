@@ -13,10 +13,39 @@ GRSpec is a tiny gem that can quickly and easily run specs for files that git ha
 ### Simple
 To run over files changed between the last commit and the current git diff, simply run `grspec` at the root of the project.
 
-### Advanced
-grspec uses `git diff` under the covers to determine which files have been changed. Args passed into `grspec` will then be passed into `git diff`, allowing for more control over the range of files and specs to be run.
+```
+$ grspec
 
-As an example, `grspec HEAD~5 HEAD` will run `grspec` over the diff of the last 5 commits.
+Changed files:
+CHANGELOG.md
+lib/grspec.rb
+
+Matching specs:
+lib/grspec.rb -> spec/lib/grspec_spec.rb
+.....................
+
+Finished in 2.77 seconds (files took 0.28235 seconds to load)
+21 examples, 0 failures
+```
+
+### Running Changes Since a Reference
+`grspec HEAD~5` will run `grspec` over the diff of the last 5 commits.
+
+### Running Changes Between References
+`grspec master develop` will run `grspec` over the diff between the `master` and `develop` branches. To avoid running changes that exist in the `master` branch that aren't present in the `develop` branch, a merge-base is used to diff those files changed since diverging from `master`
+
+### Dry Runs
+The `grspec` binary has a convenience option to perform a simple listing of the specs for changed files without actually running them. This is useful for piping off to other programs.
+
+For example
+```
+$ grspec -d HEAD~5 | grep 'spec/'
+spec/lib/grspec_spec.rb
+spec/lib/spec_runner_spec.rb
+
+$ grspec -d master HEAD | grep 'spec/lib/' | grspec
+...
+```
 
 ## Contributing
 ### Submitting Changes
