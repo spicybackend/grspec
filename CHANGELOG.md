@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.3.1](https://github.com/yumoose/grspec/tree/v0.3.1) (2018-02-21)
+[Full Changelog](https://github.com/yumoose/grspec/compare/v0.3.0...v0.3.1)
+
+**Fixed bugs:**
+
+- Dry run listing includes removed files [\#8](https://github.com/yumoose/grspec/issues/8)
+
 ## [v0.3.0](https://github.com/yumoose/grspec/tree/v0.3.0) (2018-02-20)
 [Full Changelog](https://github.com/yumoose/grspec/compare/v0.2.1...v0.3.0)
 
