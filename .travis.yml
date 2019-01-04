@@ -2,5 +2,6 @@ language: ruby
 rvm:
   - 2.2.2
 script:
+  - gem install bundler
   - bundle exec rake
   - gem build grspec.gemspec
