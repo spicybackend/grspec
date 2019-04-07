@@ -3,7 +3,7 @@ require_relative '../lib/arg_parser'
 require_relative '../lib/grspec'
 
 options = ArgParser.parse(ARGV)
-base_ref, diff_ref = ARGV.first(2)
+base_ref, diff_ref = ARGV[0..1]
 
 Grspec.new(
   base_ref: base_ref,

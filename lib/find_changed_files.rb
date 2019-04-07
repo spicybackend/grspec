@@ -1,6 +1,4 @@
 class FindChangedFiles
-  require 'active_support/core_ext/object/blank'
-
   require_relative 'find_changed_files/simple_diff'
   require_relative 'find_changed_files/since_ref'
   require_relative 'find_changed_files/between_refs'
@@ -37,14 +35,14 @@ class FindChangedFiles
   private
 
   def simple_diff?
-    base_ref.blank? && diff_ref.blank?
+    !base_ref && !diff_ref
   end
 
   def since_ref?
-    base_ref.present? && diff_ref.blank?
+    base_ref && !diff_ref
   end
 
   def between_refs?
-    base_ref.present? && diff_ref.present?
+    base_ref && diff_ref
   end
 end

@@ -1,5 +1,3 @@
-require 'active_support/core_ext/array/access'
-
 require_relative '../lib/find_changed_files'
 require_relative '../lib/find_matching_specs'
 require_relative '../lib/spec_runner'
@@ -77,7 +75,7 @@ class Grspec
   end
 
   def matching_specs
-    @matching_specs ||= spec_matchings.map(&:second).uniq
+    @matching_specs ||= spec_matchings.map { |match| match[1] }.uniq
   end
 
   def non_existent_specs

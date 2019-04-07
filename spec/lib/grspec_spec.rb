@@ -25,7 +25,7 @@ RSpec.describe Grspec do
     before do
       `mkdir spec`
 
-      (mock_changed_files + mock_matching_specs.map(&:second)).flatten.compact.each do |file|
+      (mock_changed_files + mock_matching_specs.map { |match| match[1] }).flatten.compact.each do |file|
         `touch #{file}`
       end
 

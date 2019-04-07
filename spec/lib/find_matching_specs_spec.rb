@@ -151,7 +151,7 @@ RSpec.describe FindMatchingSpecs do
         let(:specs) { ['spec/some_spec.rb'] }
 
         it 'matches the spec for the tested file' do
-          expect(matching_specs).to include_a_match_for(files.first, specs.first)
+          expect(matching_specs).to include_a_match_for(files[0], specs[0])
         end
       end
 
